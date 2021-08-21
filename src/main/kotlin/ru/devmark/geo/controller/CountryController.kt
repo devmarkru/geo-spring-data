@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.devmark.geo.dto.CountryDto
-import ru.devmark.geo.model.Country
 import ru.devmark.geo.service.CountryService
 
 @RestController
@@ -19,10 +18,10 @@ class CountryController(
 ) {
 
     @GetMapping
-    fun getAllCountries(): List<Country> = countryService.getAllCountries()
+    fun getAllCountries(): List<CountryDto> = countryService.getAllCountries()
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Int): Country = countryService.getById(id)
+    fun getById(@PathVariable id: Int): CountryDto = countryService.getById(id)
 
     @PostMapping
     fun create(@RequestBody dto: CountryDto) {

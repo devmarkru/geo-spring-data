@@ -1,13 +1,12 @@
 package ru.devmark.geo.service
 
 import ru.devmark.geo.dto.CountryDto
-import ru.devmark.geo.model.Country
 
 interface CountryService {
 
-    fun getAllCountries(): List<Country>
+    fun getAllCountries(): List<CountryDto>
 
-    fun getById(id: Int): Country
+    fun getById(id: Int): CountryDto
 
     fun create(country: CountryDto)
 
