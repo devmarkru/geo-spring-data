@@ -1,8 +1,10 @@
 package ru.devmark.geo.service
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ru.devmark.geo.dao.CountryDao
 import ru.devmark.geo.dto.CountryDto
+import ru.devmark.geo.exception.CountryNotFoundException
 import ru.devmark.geo.model.Country
 
 @Service
@@ -14,7 +16,8 @@ class CountryServiceImpl(
         countryDao.findAll().toList()
 
     override fun getById(id: Int): Country =
-        countryDao.findById(id).orElseThrow()
+        countryDao.findByIdOrNull(id)
+            ?: throw CountryNotFoundException(id)
 
     override fun create(country: CountryDto) {
         val newCountry = Country(
@@ -24,12 +27,11 @@ class CountryServiceImpl(
     }
 
     override fun update(id: Int, country: CountryDto) {
-        countryDao.findById(id).ifPresent { oldCountry ->
-            val newCountry = oldCountry.copy(
-                name = country.name,
-            )
-            countryDao.save(newCountry)
-        }
+        val oldCountry = getById(id)
+        val newCountry = oldCountry.copy(
+            name = country.name,
+        )
+        countryDao.save(newCountry)
     }
 
     override fun deleteById(id: Int) {
